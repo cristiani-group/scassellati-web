@@ -2,12 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Formazione controlli numerici e utensili",
+export const metadata: Metadata = buildMetadata({
+  path: "/formazione",
+  title: "Corsi CNC e formazione controlli numerici a Roma",
   description:
-    "Corsi di formazione su controlli numerici (CNC), programmazione CAM, utensileria Sandvik Coromant e Schunk e metrologia, con simulatore Hexagon Machine Trainer. Percorsi per aziende del Lazio e Umbria.",
-};
+    "Corsi CNC e formazione su programmazione dei controlli numerici, utensileria Sandvik Coromant e Schunk, metrologia e simulatore Hexagon Machine Trainer, a Roma per aziende del Lazio e Umbria.",
+  image: "/images/formazione/hero-formazione.jpeg",
+});
 
 const trainingJsonLd = {
   "@context": "https://schema.org",

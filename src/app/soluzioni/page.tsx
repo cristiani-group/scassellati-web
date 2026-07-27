@@ -3,12 +3,15 @@ import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import { areas } from "@/data/soluzioni";
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: "/soluzioni",
   title: "Soluzioni per l'industria meccanica",
   description:
     "Macchine per asportazione truciolo, lamiera, utensili, metrologia, software, automazione e finitura: soluzioni tecnologiche integrate per la produzione industriale.",
-};
+  image: "/images/soluzioni/asportazione-truciolo.jpeg",
+});
 
 export default function SoluzioniPage() {
   return (

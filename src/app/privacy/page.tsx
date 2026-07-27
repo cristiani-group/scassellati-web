@@ -1,11 +1,14 @@
 import PageHero from "@/components/PageHero";
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: "/privacy",
   title: "Privacy Policy",
   description:
     "Informativa sulla privacy e sui cookie di F. Scassellati S.r.l.",
-};
+  noIndex: true,
+});
 
 const h2 = "font-heading font-bold uppercase text-xl text-dgray mt-10 mb-3 first:mt-0";
 const h3 = "font-heading font-bold uppercase text-base text-dgray mt-6 mb-2";

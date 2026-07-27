@@ -1,12 +1,14 @@
 import PageHero from "@/components/PageHero";
 import UsatoForm from "@/components/forms/UsatoForm";
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: "/usato",
   title: "Macchine utensili usate",
   description:
     "Macchine utensili usate revisionate e testate, valutazione, ritiro e permuta del tuo parco macchine con supporto tecnico Scassellati. Servizio per aziende del Lazio, Umbria e in tutta Italia.",
-};
+});
 
 const usatoJsonLd = {
   "@context": "https://schema.org",

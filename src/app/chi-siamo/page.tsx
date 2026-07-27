@@ -1,12 +1,15 @@
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: "/chi-siamo",
   title: "Chi siamo",
   description:
     "Dal 1962 affianchiamo l'industria manifatturiera italiana. Storia, mission, vision e certificazione di qualità UNI EN ISO 9001 di F. Scassellati S.r.l.",
-};
+  image: "/images/chi-siamo/team-evento-2025.jpg",
+});
 
 export default function ChiSiamoPage() {
   return (

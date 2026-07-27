@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
+import { siteUrl } from "@/lib/metadata";
 import "./globals.css";
 
 const archivo = localFont({
@@ -23,32 +24,31 @@ const archivoHeading = localFont({
   ],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://scassellati-web.vercel.app";
+const defaultTitle = "F. Scassellati Srl — Dal 1962 affianchiamo l'industria meccanica";
+const defaultDescription =
+  "Macchine utensili, utensili, software, automazione e trattamenti superficiali. Partner tecnico dell'industria manifatturiera italiana dal 1962.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "F. Scassellati Srl — Dal 1962 affianchiamo l'industria meccanica",
+    default: defaultTitle,
     template: "%s | Scassellati",
   },
-  description:
-    "Macchine utensili, utensili, software, automazione e trattamenti superficiali. Partner tecnico dell'industria manifatturiera italiana dal 1962.",
-  keywords: [
-    "macchine utensili",
-    "formazione controlli numerici",
-    "corsi CNC",
-    "utensili Sandvik Coromant",
-    "utensili Schunk",
-    "macchine utensili usate Lazio",
-    "macchine utensili usate Umbria",
-  ],
+  description: defaultDescription,
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "it_IT",
     siteName: "Scassellati",
-    title: "F. Scassellati Srl — Dal 1962 affianchiamo l'industria meccanica",
-    description:
-      "Macchine utensili, utensili, software, automazione e trattamenti superficiali. Partner tecnico dell'industria manifatturiera italiana dal 1962.",
+    title: defaultTitle,
+    description: defaultDescription,
+    url: "/",
+    images: ["/images/home/hero-header.jpeg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: defaultDescription,
     images: ["/images/home/hero-header.jpeg"],
   },
 };
@@ -58,8 +58,11 @@ const organizationJsonLd = {
   "@type": "LocalBusiness",
   name: "F. Scassellati S.r.l.",
   url: siteUrl,
+  logo: `${siteUrl}/icon.png`,
+  image: `${siteUrl}/icon.png`,
   telephone: "+39-06-93020906",
   email: "segreteria@scassellati.com",
+  vatID: "05309771003",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Via del Casale Ferranti, 85",
@@ -70,6 +73,33 @@ const organizationJsonLd = {
   areaServed: [
     { "@type": "State", name: "Lazio" },
     { "@type": "State", name: "Umbria" },
+  ],
+  sameAs: ["https://www.linkedin.com/company/106289290/"],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+      ],
+      opens: "09:00",
+      closes: "13:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+      ],
+      opens: "14:00",
+      closes: "17:00",
+    },
   ],
 };
 

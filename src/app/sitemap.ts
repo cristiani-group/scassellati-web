@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { soluzioniPages, asportazionePages } from "@/data/soluzioni";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://scassellati-web.vercel.app";
+import { siteUrl } from "@/lib/metadata";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

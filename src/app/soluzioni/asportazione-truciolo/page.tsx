@@ -2,11 +2,29 @@ import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import type { Metadata } from "next";
+import { buildMetadata, siteUrl } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: "/soluzioni/asportazione-truciolo",
   title: "Macchine per asportazione truciolo",
   description:
     "Centri di lavoro verticali, orizzontali e a 5 assi, torni CNC, fantina mobile, plurimandrino, rettifiche e macchine da taglio.",
+  image: "/images/soluzioni/asportazione-truciolo.jpeg",
+});
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+    { "@type": "ListItem", position: 2, name: "Soluzioni", item: `${siteUrl}/soluzioni` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Asportazione truciolo",
+      item: `${siteUrl}/soluzioni/asportazione-truciolo`,
+    },
+  ],
 };
 
 const categories = [
@@ -39,6 +57,10 @@ const categories = [
 export default function AsportazioneTrucioloPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHero
         eyebrow="Soluzioni"
         title="Macchine per asportazione truciolo"

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import type { Metadata } from "next";
+import { buildMetadata, siteUrl } from "@/lib/metadata";
 import {
   Code2,
   Settings2,
@@ -11,10 +12,27 @@ import {
   HardHat,
 } from "lucide-react";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: "/servizi/consulenza-tecnica",
   title: "Consulenza tecnica",
   description:
     "Analizziamo il processo produttivo, sviluppiamo strategie di lavorazione e affianchiamo il reparto tecnico per aumentare produttività, qualità ed efficienza.",
+  image: "/images/servizi/consulenza-tecnica-hero.png",
+});
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+    { "@type": "ListItem", position: 2, name: "Servizi", item: `${siteUrl}/servizi` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Consulenza tecnica",
+      item: `${siteUrl}/servizi/consulenza-tecnica`,
+    },
+  ],
 };
 
 const attivita = [
@@ -60,6 +78,10 @@ const dopoConsulenza = [
 export default function ConsulenzaTecnicaPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHero
         eyebrow="Servizi"
         title="Ottimizziamo il tuo processo produttivo"

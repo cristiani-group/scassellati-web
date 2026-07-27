@@ -4,6 +4,7 @@ import PageHero from "@/components/PageHero";
 import SolutionCta from "@/components/SolutionCta";
 import { soluzioniPages as pages } from "@/data/soluzioni";
 import type { Metadata } from "next";
+import { buildMetadata, siteUrl } from "@/lib/metadata";
 
 export function generateStaticParams() {
   return Object.keys(pages).map((slug) => ({ slug }));
@@ -17,7 +18,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const data = pages[slug];
   if (!data) return {};
-  return { title: data.title, description: data.metaDescription ?? data.subtitle };
+  return buildMetadata({
+    path: `/soluzioni/${slug}`,
+    title: data.title,
+    description: data.metaDescription ?? data.subtitle,
+    image: data.items[0]?.image,
+  });
 }
 
 export default async function SoluzioneDetailPage({
@@ -41,11 +47,30 @@ export default async function SoluzioneDetailPage({
     ],
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Soluzioni", item: `${siteUrl}/soluzioni` },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: data.title,
+        item: `${siteUrl}/soluzioni/${slug}`,
+      },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <PageHero
         eyebrow="Soluzioni"
