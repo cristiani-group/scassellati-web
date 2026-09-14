@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 
 type Errors = Partial<
-  Record<"nome" | "email" | "telefono" | "messaggio" | "privacy", string>
+  Record<"nome" | "azienda" | "email" | "telefono" | "messaggio" | "privacy", string>
 >;
 
 const PHONE_REGEX = /^[+]?[\d\s()-]{7,20}$/;
@@ -35,12 +35,15 @@ export default function ContactForm() {
 
     const nextErrors: Errors = {};
     if (!nome) nextErrors.nome = "Inserisci il tuo nome e cognome.";
+    if (!azienda) nextErrors.azienda = "Inserisci il nome dell'azienda.";
     if (!email) {
       nextErrors.email = "Inserisci un indirizzo email.";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       nextErrors.email = "L'indirizzo email non è valido.";
     }
-    if (telefono && !PHONE_REGEX.test(telefono)) {
+    if (!telefono) {
+      nextErrors.telefono = "Inserisci un numero di telefono.";
+    } else if (!PHONE_REGEX.test(telefono)) {
       nextErrors.telefono = "Il numero di telefono non è valido.";
     }
     if (!messaggio) nextErrors.messaggio = "Scrivi il messaggio da inviarci.";
@@ -129,9 +132,17 @@ export default function ContactForm() {
           id="azienda"
           name="azienda"
           type="text"
+          required
           placeholder="Azienda"
-          className={inputClass(false)}
+          aria-invalid={!!errors.azienda}
+          aria-describedby={errors.azienda ? "azienda-error" : undefined}
+          className={inputClass(!!errors.azienda)}
         />
+        {errors.azienda && (
+          <p id="azienda-error" role="alert" className="mt-1 text-sm text-red-600">
+            {errors.azienda}
+          </p>
+        )}
       </div>
 
       <div>
@@ -163,6 +174,7 @@ export default function ContactForm() {
           id="telefono"
           name="telefono"
           type="tel"
+          required
           placeholder="Telefono"
           aria-invalid={!!errors.telefono}
           aria-describedby={errors.telefono ? "telefono-error" : undefined}

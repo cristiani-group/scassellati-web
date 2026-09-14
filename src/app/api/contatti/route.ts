@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   const messaggio = typeof body.messaggio === "string" ? body.messaggio.trim() : "";
   const privacy = body.privacy === true;
 
-  if (!nome || !email || !messaggio || !privacy) {
+  if (!nome || !azienda || !email || !telefono || !messaggio || !privacy) {
     return NextResponse.json(
       { error: "Compila tutti i campi obbligatori." },
       { status: 400 }
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  if (telefono && !/^[+]?[\d\s()-]{7,20}$/.test(telefono)) {
+  if (!/^[+]?[\d\s()-]{7,20}$/.test(telefono)) {
     return NextResponse.json(
       { error: "Il numero di telefono non è valido." },
       { status: 400 }
