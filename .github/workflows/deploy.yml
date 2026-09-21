@@ -31,16 +31,81 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          printf '%s\n' "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_ed25519
+          printf '%s' "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
 
-      - name: Test deployment access
+      - name: Create deployment package
+        run: |
+          tar \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='app.js' \
+            -czf /tmp/scassellati-deploy.tar.gz \
+            .next \
+            public \
+            src \
+            package.json \
+            package-lock.json \
+            next.config.ts \
+            next-env.d.ts \
+            tsconfig.json \
+            postcss.config.mjs \
+            eslint.config.mjs
+
+      - name: Upload deployment package
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          scp -i ~/.ssh/id_ed25519 -P "$SSH_PORT" \
+            /tmp/scassellati-deploy.tar.gz \
+            "$SSH_USER@$SSH_HOST:/home/gpipkzou/scassellati-deploy.tar.gz"
+
+      - name: Deploy and restart application
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
           ssh -i ~/.ssh/id_ed25519 -p "$SSH_PORT" \
-            "$SSH_USER@$SSH_HOST" \
-            'test -d /home/gpipkzou/app && test -f /home/gpipkzou/app/app.js && echo "Production directory verified"'
+            "$SSH_USER@$SSH_HOST" <<'REMOTE'
+          set -e
+
+          APP="/home/gpipkzou/app"
+          PACKAGE="/home/gpipkzou/scassellati-deploy.tar.gz"
+          BACKUP="/home/gpipkzou/scassellati_backup_before_github"
+
+          test -d "$APP"
+          test -f "$APP/app.js"
+          test -f "$PACKAGE"
+
+          rm -rf "$BACKUP"
+          mkdir -p "$BACKUP"
+
+          cp -a "$APP/.next" "$BACKUP/.next"
+          cp -a "$APP/public" "$BACKUP/public"
+          cp -a "$APP/src" "$BACKUP/src"
+
+          for file in package.json package-lock.json next.config.ts next-env.d.ts tsconfig.json postcss.config.mjs eslint.config.mjs; do
+            if [ -e "$APP/$file" ]; then
+              cp -a "$APP/$file" "$BACKUP/$file"
+            fi
+          done
+
+          cd "$APP"
+
+          rm -rf .next public src
+          rm -f package.json package-lock.json next.config.ts next-env.d.ts tsconfig.json postcss.config.mjs eslint.config.mjs
+
+          tar -xzf "$PACKAGE" -C "$APP"
+
+          mkdir -p "$APP/tmp"
+          touch "$APP/tmp/restart.txt"
+
+          rm -f "$PACKAGE"
+
+          echo "DEPLOY COMPLETED"
+          REMOTE
