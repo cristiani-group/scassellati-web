@@ -97,7 +97,7 @@ export default function UsatoForm() {
           name="marca"
           type="text"
           required
-          placeholder="Marca"
+          placeholder="Marca *"
           aria-invalid={!!errors.marca}
           aria-describedby={errors.marca ? "marca-error" : undefined}
           className={inputClass(!!errors.marca)}
@@ -118,7 +118,7 @@ export default function UsatoForm() {
           name="modello"
           type="text"
           required
-          placeholder="Modello"
+          placeholder="Modello *"
           aria-invalid={!!errors.modello}
           aria-describedby={errors.modello ? "modello-error" : undefined}
           className={inputClass(!!errors.modello)}
@@ -189,7 +189,7 @@ export default function UsatoForm() {
             >
               Privacy Policy
             </Link>
-            .
+            . *
           </label>
         </div>
         {errors.privacy && (
@@ -198,6 +198,8 @@ export default function UsatoForm() {
           </p>
         )}
       </div>
+
+      <p className="text-sm text-dgray/65">* Campi obbligatori</p>
 
       {status === "error" && serverError && (
         <p role="alert" className="text-sm text-red-600">
