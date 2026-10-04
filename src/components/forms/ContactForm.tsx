@@ -112,7 +112,7 @@ export default function ContactForm() {
           name="nome"
           type="text"
           required
-          placeholder="Nome e cognome"
+          placeholder="Nome e cognome *"
           aria-invalid={!!errors.nome}
           aria-describedby={errors.nome ? "nome-error" : undefined}
           className={inputClass(!!errors.nome)}
@@ -133,7 +133,7 @@ export default function ContactForm() {
           name="azienda"
           type="text"
           required
-          placeholder="Azienda"
+          placeholder="Azienda *"
           aria-invalid={!!errors.azienda}
           aria-describedby={errors.azienda ? "azienda-error" : undefined}
           className={inputClass(!!errors.azienda)}
@@ -154,7 +154,7 @@ export default function ContactForm() {
           name="email"
           type="email"
           required
-          placeholder="Email"
+          placeholder="Email *"
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? "email-error" : undefined}
           className={inputClass(!!errors.email)}
@@ -175,7 +175,7 @@ export default function ContactForm() {
           name="telefono"
           type="tel"
           required
-          placeholder="Telefono"
+          placeholder="Telefono *"
           aria-invalid={!!errors.telefono}
           aria-describedby={errors.telefono ? "telefono-error" : undefined}
           className={inputClass(!!errors.telefono)}
@@ -195,7 +195,7 @@ export default function ContactForm() {
           id="messaggio"
           name="messaggio"
           required
-          placeholder="Messaggio"
+          placeholder="Messaggio *"
           rows={5}
           aria-invalid={!!errors.messaggio}
           aria-describedby={errors.messaggio ? "messaggio-error" : undefined}
@@ -228,7 +228,7 @@ export default function ContactForm() {
             >
               Privacy Policy
             </Link>
-            .
+            . *
           </label>
         </div>
         {errors.privacy && (
@@ -237,6 +237,8 @@ export default function ContactForm() {
           </p>
         )}
       </div>
+
+      <p className="text-sm text-dgray/65">* Campi obbligatori</p>
 
       {status === "error" && serverError && (
         <p role="alert" className="text-sm text-red-600">
