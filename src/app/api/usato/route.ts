@@ -19,6 +19,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Richiesta non valida." }, { status: 400 });
   }
 
+  const nome = (form.get("nome") as string | null)?.trim() ?? "";
+  const azienda = (form.get("azienda") as string | null)?.trim() ?? "";
+  const email = (form.get("email") as string | null)?.trim() ?? "";
+  const telefono = (form.get("telefono") as string | null)?.trim() ?? "";
   const marca = (form.get("marca") as string | null)?.trim() ?? "";
   const modello = (form.get("modello") as string | null)?.trim() ?? "";
   const anno = (form.get("anno") as string | null)?.trim() ?? "";
@@ -26,9 +30,21 @@ export async function POST(request: Request) {
   const privacy = form.get("privacy") === "true";
   const files = form.getAll("foto").filter((f): f is File => f instanceof File && f.size > 0);
 
-  if (!marca || !modello || !privacy) {
+  if (!nome || !azienda || !email || !telefono || !marca || !modello || !privacy) {
     return NextResponse.json(
       { error: "Compila tutti i campi obbligatori." },
+      { status: 400 }
+    );
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json(
+      { error: "L'indirizzo email non è valido." },
+      { status: 400 }
+    );
+  }
+  if (!/^[+]?[\d\s()-]{7,20}$/.test(telefono)) {
+    return NextResponse.json(
+      { error: "Il numero di telefono non è valido." },
       { status: 400 }
     );
   }
@@ -63,9 +79,14 @@ export async function POST(request: Request) {
     const { error } = await resend.emails.send({
       from: "Sito Scassellati <onboarding@resend.dev>",
       to: TO_EMAIL,
+      replyTo: email,
       subject: `Nuova valutazione usato — ${marca} ${modello}`,
       html: `
         <h2>Nuova richiesta di valutazione usato</h2>
+        <p><strong>Nome e cognome:</strong> ${escapeHtml(nome)}</p>
+        <p><strong>Azienda:</strong> ${escapeHtml(azienda)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Telefono:</strong> ${escapeHtml(telefono)}</p>
         <p><strong>Marca:</strong> ${escapeHtml(marca)}</p>
         <p><strong>Modello:</strong> ${escapeHtml(modello)}</p>
         <p><strong>Anno:</strong> ${escapeHtml(anno) || "—"}</p>

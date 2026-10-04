@@ -3,7 +3,11 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 
-type Errors = Partial<Record<"marca" | "modello" | "privacy", string>>;
+type Errors = Partial<
+  Record<"nome" | "azienda" | "email" | "telefono" | "marca" | "modello" | "privacy", string>
+>;
+
+const PHONE_REGEX = /^[+]?[\d\s()-]{7,20}$/;
 
 const inputClass = (hasError: boolean) =>
   `w-full border rounded-sm px-4 py-3 text-sm ${
@@ -20,13 +24,29 @@ export default function UsatoForm() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const marca = (form.elements.namedItem("marca") as HTMLInputElement).value.trim();
-    const modello = (
-      form.elements.namedItem("modello") as HTMLInputElement
-    ).value.trim();
+    const val = (name: string) =>
+      (form.elements.namedItem(name) as HTMLInputElement).value.trim();
+    const nome = val("nome");
+    const azienda = val("azienda");
+    const email = val("email");
+    const telefono = val("telefono");
+    const marca = val("marca");
+    const modello = val("modello");
     const privacy = (form.elements.namedItem("privacy") as HTMLInputElement).checked;
 
     const nextErrors: Errors = {};
+    if (!nome) nextErrors.nome = "Inserisci il tuo nome e cognome.";
+    if (!azienda) nextErrors.azienda = "Inserisci il nome dell'azienda.";
+    if (!email) {
+      nextErrors.email = "Inserisci un indirizzo email.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      nextErrors.email = "L'indirizzo email non è valido.";
+    }
+    if (!telefono) {
+      nextErrors.telefono = "Inserisci un numero di telefono.";
+    } else if (!PHONE_REGEX.test(telefono)) {
+      nextErrors.telefono = "Il numero di telefono non è valido.";
+    }
     if (!marca) nextErrors.marca = "Inserisci la marca della macchina.";
     if (!modello) nextErrors.modello = "Inserisci il modello della macchina.";
     if (!privacy)
@@ -88,6 +108,36 @@ export default function UsatoForm() {
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit} noValidate>
+      {(
+        [
+          ["nome", "Nome e cognome", "text"],
+          ["azienda", "Azienda", "text"],
+          ["email", "Email", "email"],
+          ["telefono", "Telefono", "tel"],
+        ] as const
+      ).map(([name, label, type]) => (
+        <div key={name}>
+          <label htmlFor={name} className="sr-only">
+            {label}
+          </label>
+          <input
+            id={name}
+            name={name}
+            type={type}
+            required
+            placeholder={`${label} *`}
+            aria-invalid={!!errors[name]}
+            aria-describedby={errors[name] ? `${name}-error` : undefined}
+            className={inputClass(!!errors[name])}
+          />
+          {errors[name] && (
+            <p id={`${name}-error`} role="alert" className="mt-1 text-sm text-red-600">
+              {errors[name]}
+            </p>
+          )}
+        </div>
+      ))}
+
       <div>
         <label htmlFor="marca" className="sr-only">
           Marca
