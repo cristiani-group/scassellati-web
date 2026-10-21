@@ -86,7 +86,7 @@ export default function AziendeClient() {
   return (
     <>
       <PageHero
-        eyebrow="Aziende"
+        eyebrow="Partner"
         title="I nostri partner tecnologici"
         subtitle="Collaboriamo con costruttori e aziende leader per offrire soluzioni complete per la produzione industriale."
         backHref="/"
@@ -112,7 +112,7 @@ export default function AziendeClient() {
           </div>
 
           <p className="text-sm text-dgray/65 mb-6">
-            {filtered.length} {filtered.length === 1 ? "azienda" : "aziende"}
+            {filtered.length} partner
           </p>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
