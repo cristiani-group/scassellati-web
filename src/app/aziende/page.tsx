@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildMetadata({
   path: "/aziende",
-  title: "Aziende",
+  title: "Partner",
   description:
     "I nostri partner tecnologici: i costruttori e le aziende leader con cui collaboriamo per offrire soluzioni complete per la produzione industriale.",
 });

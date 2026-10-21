@@ -31,9 +31,9 @@ export default function ContattiPage() {
             </h3>
             <p className="text-dgray/70">Via del Casale Ferranti, 85</p>
             <p className="text-dgray/70 mb-4">00173 Roma</p>
-            <p className="text-dgray/70">Tel: +39 06 93020906</p>
-            <p className="text-dgray/70">Email: segreteria@scassellati.com</p>
-            <p className="text-dgray/70 mb-4">PEC: fscassellati@pec.it</p>
+            <p className="text-dgray/70">Tel: <a href="tel:+390693020906" className="underline underline-offset-4 hover:text-bronze transition-colors">+39 06 93020906</a></p>
+            <p className="text-dgray/70">Email: <a href="mailto:segreteria@scassellati.com" className="underline underline-offset-4 hover:text-bronze transition-colors">segreteria@scassellati.com</a></p>
+            <p className="text-dgray/70 mb-4">PEC: <a href="mailto:fscassellati@pec.it" className="underline underline-offset-4 hover:text-bronze transition-colors">fscassellati@pec.it</a></p>
             <p className="text-dgray/65 text-sm mb-8">
               Lun–Ven: 9:00–13:00, 14:00–17:00
             </p>

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { areas } from "@/data/soluzioni";
 
 const links = [
-  { href: "/aziende", label: "Aziende" },
+  { href: "/aziende", label: "Partner" },
   { href: "/servizi", label: "Servizi" },
   { href: "/formazione", label: "Formazione" },
   { href: "/usato", label: "Usato" },
