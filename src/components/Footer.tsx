@@ -47,9 +47,9 @@ export default function Footer() {
           <p className="text-gray/80">Via del Casale Ferranti, 85 — 00173 Roma</p>
           <p className="text-gray/80">P.IVA: 05309771003</p>
           <p className="text-gray/80">REA: RM875293</p>
-          <p className="mt-3 text-gray/80">Tel: +39 06 93020906</p>
-          <p className="text-gray/80">Email: segreteria@scassellati.com</p>
-          <p className="text-gray/80">PEC: fscassellati@pec.it</p>
+          <p className="mt-3 text-gray/80">Tel: <a href="tel:+390693020906" className="underline underline-offset-4 hover:text-bronze transition-colors">+39 06 93020906</a></p>
+          <p className="text-gray/80">Email: <a href="mailto:segreteria@scassellati.com" className="underline underline-offset-4 hover:text-bronze transition-colors">segreteria@scassellati.com</a></p>
+          <p className="text-gray/80">PEC: <a href="mailto:fscassellati@pec.it" className="underline underline-offset-4 hover:text-bronze transition-colors">fscassellati@pec.it</a></p>
           <p className="mt-3 text-gray/65">Lun–Ven: 9:00–13:00, 14:00–17:00</p>
         </div>
 
